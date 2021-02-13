@@ -1,5 +1,9 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+from pizza_class import Pizza
+from functools import partial
+
+pizza = Pizza()
 
 def main():
     w = create_window()
@@ -8,20 +12,28 @@ def main():
     open_window(w)
 
 def crust_options(tab):
-    size = tk.Label(tab, text="Size", anchor="w", width="20", font=("Arial Bold", 16))
+    size = tk.Label(tab, text="Size", font=("Arial Bold", 16))
     grid(size, 0, 0)
-    small = tk.Radiobutton(tab, text='Small', value=1)
-    grid(small, 0, 1)
-    med = tk.Radiobutton(tab, text='Mediuam', value=2)
-    grid(med, 1, 1)
-    large = tk.Radiobutton(tab, text='Large', value=3)
-    grid(large, 2, 1)
-    ex_large = tk.Radiobutton(tab, text='Extra Large', value=4)
-    grid(ex_large, 3, 1)
-    crust = tk.Label(tab, text="Crust", anchor="w", width="20", font=("Arial Bold", 16))
+    size_option = create_size_options(tab)
+    crust = tk.Label(tab, text="Crust", font=("Arial Bold", 16))
     grid(crust, 0, 2)
-    add_ons = tk.Label(tab, text="Add-Ons", anchor="w", width="20", font=("Arial Bold", 16))
+    add_ons = tk.Label(tab, text="Add-Ons", font=("Arial Bold", 16))
     grid(add_ons, 0, 4)
+
+def create_size_options(tab):
+    selected = tk.IntVar()
+    small = tk.Radiobutton(tab, text='Small', value=1, variable=selected, command=partial(get_value, selected))
+    grid(small, 0, 1)
+    med = tk.Radiobutton(tab, text='Medium', value=2, variable=selected, command=partial(get_value, selected))
+    grid(med, 1, 1)
+    large = tk.Radiobutton(tab, text='Large', value=3, variable=selected, command=partial(get_value, selected))
+    grid(large, 2, 1)
+    ex_large = tk.Radiobutton(tab, text='Extra Large', value=4, variable=selected, command=partial(get_value, selected))
+    grid(ex_large, 3, 1)
+    return get_value(selected)
+
+def get_value(selected):
+    return selected.get()
 
 def create_window():
     window = tk.Tk()
