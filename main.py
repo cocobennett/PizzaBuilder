@@ -12,13 +12,20 @@ def main():
     open_window(w)
 
 def crust_options(tab):
-    size = tk.Label(tab, text="Size", font=("Arial Bold", 16))
+    size = tk.Label(tab, text="Size       ", font=("Arial Bold", 16))
     grid(size, 0, 0)
     size_option = create_size_options(tab)
-    crust = tk.Label(tab, text="Crust", font=("Arial Bold", 16))
+    crust = tk.Label(tab, text="Crust      ", font=("Arial Bold", 16))
     grid(crust, 0, 2)
+    crust_options = create_crust_options(tab)
     add_ons = tk.Label(tab, text="Add-Ons", font=("Arial Bold", 16))
     grid(add_ons, 0, 4)
+    add_on_options = create_add_on_options(tab)
+    button = tk.Button(tab, text="Next", command=clicked)
+    grid(button, 0, 6)
+
+def clicked():
+    print("Button was clicked!")
 
 def create_size_options(tab):
     selected = tk.IntVar()
@@ -30,9 +37,28 @@ def create_size_options(tab):
     grid(large, 2, 1)
     ex_large = tk.Radiobutton(tab, text='Extra Large', value=4, variable=selected, command=partial(get_value, selected))
     grid(ex_large, 3, 1)
-    return get_value(selected)
+    return selected
+
+def create_crust_options(tab):
+    selected = tk.IntVar()
+    thin = tk.Radiobutton(tab, text='Thin', value=1, variable=selected, command=partial(get_value, selected))
+    grid(thin, 0, 3)
+    hand = tk.Radiobutton(tab, text='Hand Tossed', value=2, variable=selected, command=partial(get_value, selected))
+    grid(hand, 1, 3)
+    pan = tk.Radiobutton(tab, text='Pan', value=3, variable=selected, command=partial(get_value, selected))
+    grid(pan, 2, 3)
+    return selected
+
+def create_add_on_options(tab):
+    selected = tk.IntVar()
+    none = tk.Radiobutton(tab, text='None', value=1, variable=selected, command=partial(get_value, selected))
+    grid(none, 0, 5)
+    stuffed = tk.Radiobutton(tab, text='Stuffed Crust', value=2, variable=selected, command=partial(get_value, selected))
+    grid(stuffed, 1, 5)
+    return selected
 
 def get_value(selected):
+    #print(selected.get())
     return selected.get()
 
 def create_window():
